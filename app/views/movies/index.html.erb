@@ -1,34 +1,17 @@
-<h1>Listing movies</h1>
+<% if !user_signed_in? %>
+  <div class="jumbotron">
+    <h1>Your Favorite Movies Reviewed</h1>
+    <p>Hashtag hoodie mumblecore selfies. Authentic keffiyeh leggings Kickstarter, narwhal jean shorts XOXO Vice Austin cardigan. Organic drinking vinegar freegan pickled.</p>
+    <p><%= link_to "Sign Up To Write A Review", new_user_registration_path, class: "btn btn-primary btn-lg" %></p>
+  </div>
+<% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Movie length</th>
-      <th>Director</th>
-      <th>Rating</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @movies.each do |movie| %>
-      <tr>
-        <td><%= image_tag movie.image.url(:medium) %></td>
-        <td><%= movie.title %></td>
-        <td><%= movie.description %></td>
-        <td><%= movie.movie_length %></td>
-        <td><%= movie.director %></td>
-        <td><%= movie.rating %></td>
-        <td><%= link_to 'Show', movie %></td>
-        <td><%= link_to 'Edit', edit_movie_path(movie) %></td>
-        <td><%= link_to 'Destroy', movie, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Movie', new_movie_path %>
+<div class="row">
+  <% @movies.each do |movie| %>
+    <div class="col-sm-6 col-md-3">
+      <div class="thumbnail">
+        <%= link_to (image_tag movie.image.url(:medium), class: 'image'), movie %>
+      </div>
+    </div>
+  <% end %>
+</div>
