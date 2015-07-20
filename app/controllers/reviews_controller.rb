@@ -8,6 +8,9 @@ class ReviewsController < ApplicationController
   end
 
   def edit
+    if @review.user != current_user
+      redirect_to root_path, notice: "This is not your review to edit"
+    end
   end
 
   def create
@@ -23,12 +26,20 @@ class ReviewsController < ApplicationController
   end
 
   def update
-    @review.update(review_params)
+    if @review.update(review_params) && @review.user == current_user
+      redirect_to @review, notice: "Review was successfully updated"
+    else
+      render 'edit'
+    end
   end
 
   def destroy
-    @review.destroy
-    redirect_to root_path
+    if @review.user == current_user
+      @review.destroy
+      redirect_to root_path
+    else
+      redirect_to root_path
+    end
   end
 
   private
